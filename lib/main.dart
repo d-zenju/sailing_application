@@ -1,4 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+//import 'package:sensors/sensors.dart';
+//import 'package:location/location.dart';
+//import 'package:flutter_compass/flutter_compass.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,54 +14,101 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: PageController(viewportFraction: 1.0),
+        scrollDirection: Axis.vertical,
+        children: [CurrentTimePage()],
+      ),
+    );
+  }
+}
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+/*
+// コンパス表示Widget
+class DirectionPage extends StatefulWidget {
+  @override
+  _DirectionPage createState() => _DirectionPage();
+}
+
+// コンパス表示
+class _DirectionPage extends State<DirectionPage> {
+  double _direction;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FlutterCompass.events.listen((double direction) {
+      setState(() {
+        _direction = direction;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('$_direction'),
+      ],
     );
+  }
+}
+*/
+
+// 時間表示Widget
+class CurrentTimePage extends StatefulWidget {
+  @override
+  _CurrentTimePage createState() => _CurrentTimePage();
+}
+
+// 時間表示
+class _CurrentTimePage extends State<CurrentTimePage> {
+  Timer _timer;
+  DateTime _dateTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(
+      Duration(seconds: 1),
+      (_t) => setState(() {}),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void updateTime() {
+    _dateTime = DateTime.now();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    updateTime();
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('$_dateTime'),
+      ]);
   }
 }
