@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 //import 'package:sensors/sensors.dart';
 //import 'package:location/location.dart';
-//import 'package:flutter_compass/flutter_compass.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,13 +32,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: PageView(
         controller: PageController(viewportFraction: 1.0),
         scrollDirection: Axis.vertical,
-        children: [CurrentTimePage()],
+        children: [CurrentTimePage(), DirectionPage()],
       ),
     );
   }
 }
 
-/*
+
 // コンパス表示Widget
 class DirectionPage extends StatefulWidget {
   @override
@@ -51,7 +52,6 @@ class _DirectionPage extends State<DirectionPage> {
   @override
   void initState() {
     super.initState();
-
     FlutterCompass.events.listen((double direction) {
       setState(() {
         _direction = direction;
@@ -64,12 +64,11 @@ class _DirectionPage extends State<DirectionPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('$_direction'),
+        Text(_direction.toStringAsFixed(1) + '°', style: TextStyle(fontSize: 40.0)),
       ],
     );
   }
 }
-*/
 
 // 時間表示Widget
 class CurrentTimePage extends StatefulWidget {
@@ -80,7 +79,8 @@ class CurrentTimePage extends StatefulWidget {
 // 時間表示
 class _CurrentTimePage extends State<CurrentTimePage> {
   Timer _timer;
-  DateTime _dateTime;
+  DateFormat _dateFormat = DateFormat('HH:mm:ss');
+  String _dateTime;
 
   @override
   void initState() {
@@ -98,7 +98,7 @@ class _CurrentTimePage extends State<CurrentTimePage> {
   }
 
   void updateTime() {
-    _dateTime = DateTime.now();
+    _dateTime = _dateFormat.format(DateTime.now());
   }
 
   @override
@@ -108,7 +108,7 @@ class _CurrentTimePage extends State<CurrentTimePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('$_dateTime'),
+        Text('$_dateTime', style: TextStyle(fontSize: 40.0)),
       ]);
   }
 }
