@@ -24,6 +24,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
+  # [flutter_compass](https://pub.dev/packages/flutter_compass)
+  flutter_compass: ^0.3.2
+
+  # [Intl](https://pub.dev/packages/intl)
+  intl: ^0.15.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
