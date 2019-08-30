@@ -1,4 +1,5 @@
 /// [Kalman.h]https://github.com/bachagas/Kalman
+/// 要検証
 
 class KalmanFilter1D {
   double _q; //process noise covariance

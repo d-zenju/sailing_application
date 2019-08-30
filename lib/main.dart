@@ -49,10 +49,30 @@ class DirectionPage extends StatefulWidget {
 class _DirectionPage extends State<DirectionPage> {
   double _direction;
 
+  double roundValue(double value) {
+    double result = 0.0;
+    double floor = value.floorToDouble();
+    double decimal = value - floor;
+
+    if (decimal < 0.25) {
+      result = floor;
+    } else if (decimal < 0.75) {
+      result = floor + 0.5;
+    } else {
+      result = floor + 1.0;
+    }
+
+    return result;
+  }
+
   @override
   void initState() {
     super.initState();
     FlutterCompass.events.listen((double direction) {
+      direction = roundValue(direction);
+      if (direction >= 360.0) {
+        direction = 0.0;
+      }
       setState(() {
         _direction = direction;
       });
@@ -64,7 +84,7 @@ class _DirectionPage extends State<DirectionPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(_direction.toStringAsFixed(1) + '°', style: TextStyle(fontSize: 40.0)),
+        Text(_direction.toStringAsFixed(1) + '°', style: TextStyle(fontSize: 120.0)),
       ],
     );
   }
@@ -108,7 +128,7 @@ class _CurrentTimePage extends State<CurrentTimePage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('$_dateTime', style: TextStyle(fontSize: 40.0)),
+        Text('$_dateTime', style: TextStyle(fontSize: 85.0)),
       ]);
   }
 }
